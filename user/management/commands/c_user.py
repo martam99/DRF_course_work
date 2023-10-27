@@ -1,7 +1,4 @@
-import os
-
 from django.core.management import BaseCommand
-
 from user.models import User
 
 

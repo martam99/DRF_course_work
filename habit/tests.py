@@ -1,6 +1,6 @@
 from django.urls import reverse
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIClient
 
 from habit.models import Habit
 from user.models import User
@@ -12,26 +12,25 @@ class HabitTestCase(APITestCase):
             email='test@mail.ru',
             is_active=True
         )
+        self.client = APIClient()
+        self.client.force_authenticate(user=self.user)
         self.user.set_password('qwe123rty456')
-        self.user.force_authenticated(user=self.user)
         self.user.save()
 
         self.habit = Habit.objects.create(
-            owner=self.user,
             place='Home',
             habit_action='Drink water',
-            period='DAILY',
             reward='eat apple',
+            time_to_complete=80
         )
         self.habit.save()
 
     def test_create_habit(self):
         data = {
-            "owner": self.user,
-            "place": 'Test',
-            "habit_action": 'Test2',
-            "period": 'DAILY',
-            "reward": 'Test3',
+            'place': self.habit.place,
+            'habit_action': self.habit.habit_action,
+            'reward': self.habit.reward,
+            'time_to_complete': self.habit.time_to_complete
         }
         response = self.client.post(
             reverse('habit:create-habit'),
@@ -43,7 +42,7 @@ class HabitTestCase(APITestCase):
         )
         self.assertEqual(
             Habit.objects.all().count(),
-            2
+            1
         )
 
     def test_list_lesson(self):
@@ -56,3 +55,6 @@ class HabitTestCase(APITestCase):
             status.HTTP_200_OK
         )
 
+    def tearDown(self):
+        User.objects.all().delete()
+        Habit.objects.all().delete()

@@ -8,12 +8,12 @@ from user.models import User
 class Command(BaseCommand):
     def handle(self, *args, **options):
         user = User.objects.create(
-            email=os.getenv('email'),
-            first_name=os.getenv('first_name'),
-            last_name=os.getenv('last_name'),
+            email=os.getenv('EMAIL'),
+            first_name=os.getenv('FIRST_NAME'),
+            last_name=os.getenv('LAST_NAME'),
             is_staff=True,
             is_active=True,
             is_superuser=True,
         )
-        user.set_password(os.getenv('password'))
+        user.set_password(os.getenv('PASSWORD'))
         user.save()
