@@ -45,8 +45,28 @@ class HabitTestCase(APITestCase):
             1
         )
 
-    def test_list_lesson(self):
-        """test for list of lessons"""
+    def test_create_habit_errors(self):
+        data = {
+            'place': self.habit.place,
+            'habit_action': self.habit.habit_action,
+            'reward': self.habit.reward,
+            'time_to_complete': self.habit.time_to_complete
+        }
+        response = self.client.post(
+            reverse('habit:create-habit'),
+            data=data
+        )
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_201_CREATED
+        )
+        self.assertEqual(
+            Habit.objects.all().count(),
+            1
+        )
+
+    def test_list_habit(self):
+        """test for list of habit"""
         response = self.client.get(
             reverse('habit:list-habit'),
         )
