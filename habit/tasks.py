@@ -6,8 +6,10 @@ from habit.models import Habit
 
 @shared_task
 def habit_bot():
-    habit = Habit.objects.all()
-    text = f'я буду {habit.habit_action} в {habit.time} в {habit.place}'
+    habit = Habit.objects.habit_action
+    time = Habit.objects.time
+    place = Habit.objects.place
+    text = f'я буду {habit} в {time} в {place}'
     bot = telegram.Bot(token=os.getenv('BOT_TOKEN'))
     bot.send_message(chat_id=os.getenv('CHANNEL_ID'), text=text)
-    print(habit_bot.delay())
+    habit_bot.delay()

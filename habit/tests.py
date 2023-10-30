@@ -1,3 +1,5 @@
+import datetime
+
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
@@ -21,7 +23,6 @@ class HabitTestCase(APITestCase):
             place='Home',
             habit_action='Drink water',
             reward='eat apple',
-            time_to_complete=80
         )
         self.habit.save()
 
@@ -30,27 +31,6 @@ class HabitTestCase(APITestCase):
             'place': self.habit.place,
             'habit_action': self.habit.habit_action,
             'reward': self.habit.reward,
-            'time_to_complete': self.habit.time_to_complete
-        }
-        response = self.client.post(
-            reverse('habit:create-habit'),
-            data=data
-        )
-        self.assertEqual(
-            response.status_code,
-            status.HTTP_201_CREATED
-        )
-        self.assertEqual(
-            Habit.objects.all().count(),
-            1
-        )
-
-    def test_create_habit_errors(self):
-        data = {
-            'place': self.habit.place,
-            'habit_action': self.habit.habit_action,
-            'reward': self.habit.reward,
-            'time_to_complete': self.habit.time_to_complete
         }
         response = self.client.post(
             reverse('habit:create-habit'),

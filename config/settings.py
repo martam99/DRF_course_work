@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     # my apps
     'rest_framework',
+    'rest_framework_simplejwt',
     'celery',
     'drf_yasg',
     'django_celery_beat',
@@ -119,9 +120,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'habit_base',
-        'USER': 'postgres',
-        'PASSWORD': 1111
+        'NAME': os.getenv('NAME'),
+        'USER': os.getenv('USER'),
+        'PASSWORD': os.getenv('PASSWORD_DB')
     }
 }
 
@@ -175,13 +176,12 @@ CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 
 # Часовой пояс для работы Celery
-CELERY_TIMEZONE = "Asia/Yerevan"
-
+CELERY_TIMEZONE = os.getenv("CELERY_TIMEZONE")
 # Флаг отслеживания выполнения задач
 CELERY_TASK_TRACK_STARTED = True
 
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-# REDIS_HOST = "127.0.0.1"
-# REDIS_PORT = "6379"
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = "6379"
