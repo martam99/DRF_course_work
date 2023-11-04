@@ -185,3 +185,11 @@ CELERY_TASK_TIME_LIMIT = 30 * 60
 
 REDIS_HOST = "127.0.0.1"
 REDIS_PORT = "6379"
+
+CELERY_BEAT_SCHEDULE = {
+    'habit_bot': {
+        'task': 'habit.tasks.habit_bot',
+        'schedule': timedelta(minutes=1)
+    },
+}
+

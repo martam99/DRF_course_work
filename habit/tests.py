@@ -1,5 +1,3 @@
-import datetime
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
@@ -55,7 +53,8 @@ class HabitTestCase(APITestCase):
         self.assertEqual(response.json(),
                          {
                              "non_field_errors": [
-                                 "You haven't filled in one of these fields. Please, fill in one of the two (nice_habit/reward) fields"
+                                 "You haven't filled in one of these fields. Please, fill in one of the two ("
+                                 "nice_habit/reward) fields"
                              ]
                          }
                          )
@@ -95,4 +94,3 @@ class HabitTestCase(APITestCase):
                              ]
                          }
                          )
-

@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from django_celery_beat.models import PeriodicTask, \
     IntervalSchedule
 from habit.models import Habit
+from habit.tasks import habit_bot
+
 habit = Habit.objects.all()
 for h in habit:
     periods = h.period
@@ -22,7 +24,7 @@ for h in habit:
     PeriodicTask.objects.create(
         interval=schedule,
         name='Habit reminder',
-        task='habit.tasks.habit_bot',
+        task=habit_bot(),
         args=json.dumps(['arg1', 'arg2']),
         kwargs=json.dumps({
             'be_careful': True,
