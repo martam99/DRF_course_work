@@ -189,7 +189,7 @@ REDIS_PORT = "6379"
 CELERY_BEAT_SCHEDULE = {
     'habit_bot': {
         'task': 'habit.tasks.habit_bot',
-        'schedule': timedelta(minutes=1)
+        'schedule': timedelta(seconds=30)
     },
 }
 

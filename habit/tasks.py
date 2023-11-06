@@ -1,7 +1,6 @@
 import os
 
 import requests
-import telebot
 from celery import shared_task
 import telegram
 from habit.models import Habit
@@ -25,24 +24,10 @@ def get_reward_or_habit():
 
 @shared_task
 def habit_bot():
-    bot_token = os.getenv('BOT_TOKEN')
-    chat_id = os.getenv('CHANNEL_ID')
-    text = f'я буду {action} в {time} в {place}' \
+    text = f'Я должна {action} в {time} в {place}' \
            f'После этого {get_reward_or_habit()}'
-    params = {'chat_id': chat_id, 'text': text}
-    requests.get(f'https://api.telegram.org/bot{bot_token}/sendMessage', params=params)
-    # bot = telebot.TeleBot(token=os.getenv('BOT_TOKEN'))
-    # text = f'я буду {action} в {time} в {place}' \
-    #        f'После этого {get_reward_or_habit()}'
-    # bot.send_message(chat_id=os.getenv('CHANNEL_ID'), text=text)
-    # @bot.message_handler(commands=["start"])
-    # def start(m, res=False):
-    #     text = f'я буду {action} в {time} в {place}' \
-    #            f'После этого {get_reward_or_habit()}'
-    #     bot.send_message(chat_id=os.getenv('CHANNEL_ID'), text=text)
-
-    # text = f'я буду {action} в {time} в {place}' \
-    #        f'После этого {get_reward_or_habit()}'
+    params = {"chat_id": os.getenv('CHANNEL_ID'), 'text': text}
+    requests.get(f"https://api.telegram.org/bot{os.getenv('BOT_TOKEN')}/sendMessage", params=params)
     # bot = telegram.Bot(token=os.getenv('BOT_TOKEN'))
     # bot.send_message(chat_id=os.getenv('CHANNEL_ID'), text=text)
 
