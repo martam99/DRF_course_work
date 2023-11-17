@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-og^@_=$1=!u(u=g#l0y__(1o!u44lp!j4j)*e)k&v0pc2n6q)5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 dot_env = os.path.join(BASE_DIR, '.env')
 load_dotenv(dotenv_path=dot_env)
@@ -114,9 +114,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# database for local use
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -125,7 +123,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #         'PASSWORD': os.getenv('PASSWORD_DB')
 #     }
 # }
-
+# database for docker-compose
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -195,7 +193,6 @@ CELERY_TASK_TRACK_STARTED = True
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-
 CELERY_BEAT_SCHEDULE = {
     'habit': {
         'task': 'habit.tasks.habit_bot',
@@ -204,4 +201,3 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-

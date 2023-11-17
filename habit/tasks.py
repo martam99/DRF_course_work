@@ -6,9 +6,9 @@ from habit.models import Habit
 
 def get_reward_or_habit():
     habits = Habit.objects.all()
-    for h in habits:
-        reward = h.reward
-        pleasant = h.pleasant_habit
+    for habit in habits:
+        reward = habit.reward
+        pleasant = habit.pleasant_habit
         if reward:
             habit = reward
         else:
@@ -32,15 +32,14 @@ def get_reward_or_habit():
 # bot = telegram.Bot(token=os.getenv('BOT_TOKEN'))
 # bot.send_message(chat_id=os.getenv('CHANNEL_ID'), text=text)
 
+
 @shared_task
 def habit_bot():
-    habits = Habit.objects.all()
-    for h in habits:
+    send_habit = Habit.objects.all()
+    for h in send_habit:
         action = h.habit_action
         time = h.time
         place = h.place
-
-    text = f'Я должна {action} в {time} в {place}'
-    params = {"chat_id": os.getenv('CHANNEL_ID'), 'text': text}
-    data = requests.get(f"https://api.telegram.org/bot{os.getenv('BOT_TOKEN')}/sendMessage", params=params)
-    print(data)
+        text = f'Я должна {action} в {time} в {place}'
+        params = {"chat_id": os.getenv('CHANNEL_ID'), 'text': text}
+        requests.get(f"https://api.telegram.org/bot{os.getenv('BOT_TOKEN')}/sendMessage", params=params)
